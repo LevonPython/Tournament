@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <select>
+        <option value="{{ tour.player1 }}">player1 - {{tour.player1}}</option>
+        <option value="{{ tour.player2 }}">player2 - {{tour.player2}}</option>
+        <option value="{{ tour.player3 }}">player3 - {{tour.player3}}</option>
+        <option value="{{ tour.player4 }}">player4 - {{tour.player4}}</option>
+        <option value="{{ tour.player5 }}">player5 - {{tour.player5}}</option>
+        <option value="{{ tour.player6 }}">player6 - {{tour.player6}}</option>
+        <option value="{{ tour.player7 }}">player7 - {{tour.player7}}</option>
+        <option value="{{ tour.player8 }}">player8 - {{tour.player8}}</option>
+</select>
+{% endblock content %}
