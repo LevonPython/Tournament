@@ -72,8 +72,12 @@ def change_tournament(request, tournament_name_slug=None):
 
 
 def show_tournament(request, tournament_name_slug=None):
-    tour = TournamentModel.objects.get(slug=tournament_name_slug)
-    print('\n', tour.slug, '\n')
+    try:
+        tour = TournamentModel.objects.get(slug=tournament_name_slug)
+        print('\n', tour.slug, '\n')
+    except TournamentModel.DoesNotExist:
+        tour = None
+
     return render(request, 'matches_tour/show_tournament.html', {'tour': tour})
 
 
