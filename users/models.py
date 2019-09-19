@@ -22,6 +22,7 @@ class Profile(models.Model):
             img.thumbnail(output_size)
             img.save(self.image.path)
 
+
 class TournamentModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=40, unique=True)
@@ -44,7 +45,7 @@ class TournamentModel(models.Model):
         verbose_name_plural = 'TournamentModel'
 
     def __str__(self):
-        return self.user.username
+        return self.name
 
 
 class MatchModel(models.Model):
@@ -53,3 +54,25 @@ class MatchModel(models.Model):
     player2 = models.CharField(max_length=30)
     score1 = models.ImageField(default=0)
     score2 = models.ImageField(default=0)
+
+
+class All_tournaments(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    player1 = models.CharField(max_length=30)
+    player2 = models.CharField(max_length=30)
+    player3 = models.CharField(max_length=30)
+    player4 = models.CharField(max_length=30)
+    player5 = models.CharField(max_length=30)
+    player6 = models.CharField(max_length=30)
+    player7 = models.CharField(max_length=30)
+    player8 = models.CharField(max_length=30)
+    date_posted = models.DateTimeField(default=timezone.now)
+    stared_at = models.DateField(default=timezone.now)
+    # slug = models.SlugField(unique=True, )
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})

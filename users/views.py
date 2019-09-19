@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import TournamentModel
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, TournamentForm
+from .models import TournamentModel, All_tournaments
 from .forms import TournamentForm
 
 
@@ -68,18 +68,34 @@ def add_tournament(request):
 
 
 def change_tournament(request, tournament_name_slug=None):
-    return render(request, 'matches_tour/change_tour.html')
+    if request.method == 'POST':
+        form = TournamentForm(request.POST)
+        print('\n  request.method is post \n')
+
+        if form.is_valid():
+            print('\n  form is valid \n')
+            tour_model = TournamentModel.objects.get(slug=tournament_name_slug)
+            print('\n  tornament object is created \n')
+            tour_model.user = request.user
+            tour_model.name = form.cleaned_data['name']
+            tour_model.player1 = form.cleaned_data['player1']
+            tour_model.player2 = form.cleaned_data['player2']
+            tour_model.player3 = form.cleaned_data['player3']
+            tour_model.player4 = form.cleaned_data['player4']
+            tour_model.player5 = form.cleaned_data['player5']
+            tour_model.player6 = form.cleaned_data['player6']
+            tour_model.player7 = form.cleaned_data['player7']
+            tour_model.player8 = form.cleaned_data['player8']
+            tour_model.save()
+            return redirect('profile')
+    form = TournamentForm()
+    return render(request, 'users/add_tournament.html', {'form': form})
 
 
 def show_tournament(request, tournament_name_slug=None):
-    try:
-        tour = TournamentModel.objects.get(slug=tournament_name_slug)
-        print('\n', tour.slug, '\n')
-    except TournamentModel.DoesNotExist:
-        tour = None
-
+    tour = TournamentModel.objects.get(slug=tournament_name_slug)
+    print('\n', tour.slug, '\n')
     return render(request, 'matches_tour/show_tournament.html', {'tour': tour})
-
 
 def match(request, tournament_name_slug=None):
     return render(request, 'matches_tour/match.html')
@@ -88,3 +104,10 @@ def match(request, tournament_name_slug=None):
 def add_match(request, tournament_name_slug=None):
     tour = TournamentModel.objects.get(slug=tournament_name_slug)
     return render(request, 'matches_tour/add_match.html', {'tour': tour})
+
+
+def all_tournaments(request):
+    context = {
+        'posts': All_tournaments.objects.all()
+    }
+    return render(request, 'matches_tour/all_tournaments.html', context)

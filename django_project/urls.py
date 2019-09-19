@@ -50,6 +50,7 @@ urlpatterns = [
          ),
          name='password_reset_complete'),
     path('', include('blog.urls')),
+    path('all_tournaments/', user_views.all_tournaments, name='blog-all_tournaments'),
 ]
 
 

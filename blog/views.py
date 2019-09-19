@@ -77,3 +77,9 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
+
+# def all_tournaments(request):
+#     context = {
+#         'posts': All_tournaments.objects.all()
+#     }
+#     return render(request, 'blog/all_tournaments.html', context)
